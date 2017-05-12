@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stopwatch", "Stopwatch\Stop
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfApplication1\WpfApplication1.csproj", "{32416B16-6AB4-4382-84C1-1E37701D8BAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoPlayer", "VideoPlayer\VideoPlayer.csproj", "{335AFEA0-9961-4E7D-B363-41395D9434C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{32416B16-6AB4-4382-84C1-1E37701D8BAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32416B16-6AB4-4382-84C1-1E37701D8BAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32416B16-6AB4-4382-84C1-1E37701D8BAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{335AFEA0-9961-4E7D-B363-41395D9434C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{335AFEA0-9961-4E7D-B363-41395D9434C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{335AFEA0-9961-4E7D-B363-41395D9434C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{335AFEA0-9961-4E7D-B363-41395D9434C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

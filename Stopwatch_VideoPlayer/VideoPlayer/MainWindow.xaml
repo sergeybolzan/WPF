@@ -1,0 +1,24 @@
+﻿<Window x:Class="VideoPlayer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <DockPanel LastChildFill="True">
+        <Menu DockPanel.Dock="Top">
+            <Menu.Items>
+                <MenuItem Header="Файл">
+                    <MenuItem Header="Открыть"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Вид">
+                    
+                </MenuItem>
+            </Menu.Items>
+        </Menu>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+            <Label>asdasd</Label>
+            <Button>11111</Button>
+            <Button>22222</Button>
+            <Button>33333</Button>
+        </StackPanel>
+        <TextBox></TextBox>
+    </DockPanel>
+</Window>
