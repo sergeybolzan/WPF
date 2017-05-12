@@ -3,19 +3,35 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="СЕКУНДОМЕР" Height="350" Width="380" MinHeight="350" MinWidth="380" WindowStartupLocation="CenterScreen">
     <DockPanel LastChildFill="True">
-        <TextBox DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="30" FontSize="30" FontWeight="Bold">00:00:00:000</TextBox>
-        <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
-            <Button Margin="10" Width="100" FontSize="20" FontWeight="Bold">ЗАПУСК</Button>
-            <Button Margin="10" Width="100" FontSize="20" FontWeight="Bold">СБРОС</Button>
-            <Button Margin="10" Width="100" FontSize="20" FontWeight="Bold">КРУГ</Button>
-        </StackPanel>
-        <TextBox Margin="15">
-            <TextBox.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFAAA2A2" Offset="0.042"/>
-                    <GradientStop Color="#FFF5DEDE" Offset="1"/>
-                </LinearGradientBrush>
-            </TextBox.Background>
+        <DockPanel.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="LightBlue" Offset="0"/>
+                <GradientStop Color="MidnightBlue" Offset="1"/>
+            </LinearGradientBrush>
+        </DockPanel.Background>
+        <TextBox 
+            x:Name="tbTimer"
+            DockPanel.Dock="Top" 
+            HorizontalAlignment="Center" 
+            Margin="30" FontSize="30" 
+            FontWeight="SemiBold" 
+            Foreground="Yellow" 
+            Background="Black" 
+            Text="00:00:00:000"
+            IsReadOnly="True">
         </TextBox>
+        <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Margin="10" Width="100" FontSize="20" FontWeight="Bold" Click="Button_Click">ЗАПУСК</Button>
+            <Button Margin="10" Width="100" FontSize="20" FontWeight="Bold" Click="Button_Click_1">СБРОС</Button>
+            <Button Margin="10" Width="100" FontSize="20" FontWeight="Bold" Click="Button_Click_2">КРУГ</Button>
+        </StackPanel>
+        <ListBox x:Name="lbMarks" Margin="15" FontSize="20" FontWeight="SemiBold">
+            <ListBox.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#FFF5DEDE" Offset="0"/>
+                    <GradientStop Color="#FFAAA2A2" Offset="1"/>
+                </LinearGradientBrush>
+            </ListBox.Background>
+        </ListBox>
     </DockPanel>
 </Window>
