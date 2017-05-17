@@ -28,11 +28,13 @@ namespace VideoPlayer
 
         private void CommandOpenBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.InitialDirectory = Environment.CurrentDirectory;
-            if (openFileDialog1.ShowDialog() == true)
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Environment.CurrentDirectory;
+            openFileDialog.Filter = "Video Files(*.mp4;*.mkv;*.wmv;*.avi)|*.mp4;*.mkv;*.wmv;*.avi|All files (*.*)|*.*";
+            openFileDialog.RestoreDirectory = true;
+            if (openFileDialog.ShowDialog() == true)
             {
-                mediaElement.Source = new Uri(openFileDialog1.FileName);
+                mediaElement.Source = new Uri(openFileDialog.FileName);
             }
         }
     }
