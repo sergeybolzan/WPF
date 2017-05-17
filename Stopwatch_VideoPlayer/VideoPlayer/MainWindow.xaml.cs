@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,16 @@ namespace VideoPlayer
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void CommandOpenBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.InitialDirectory = Environment.CurrentDirectory;
+            if (openFileDialog1.ShowDialog() == true)
+            {
+                mediaElement.Source = new Uri(openFileDialog1.FileName);
+            }
         }
     }
 }
