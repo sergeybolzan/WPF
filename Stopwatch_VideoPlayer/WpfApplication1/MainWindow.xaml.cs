@@ -101,6 +101,5 @@ namespace WpfApplication1
             myMediaElement.Volume = (double)volumeSlider.Value;
             myMediaElement.SpeedRatio = (double)speedRatioSlider.Value;
         }
-
     }
 }
