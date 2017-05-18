@@ -34,7 +34,7 @@ namespace VideoPlayer
         void timer_Tick(object sender, EventArgs e)
         {
             slPosition.Value = mediaElement.Position.TotalMilliseconds;
-            lbTime.Content = mediaElement.Position;
+            lbTime.Content = mediaElement.Position.ToString(@"hh\:mm\:ss");
         }
 
         private void CommandOpenBinding_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -80,7 +80,7 @@ namespace VideoPlayer
 
         private void mediaElement_MediaEnded(object sender, RoutedEventArgs e)
         {
-            timer.Stop();
+            //timer.Stop();
         }
 
         private void btnPlayStop_Click(object sender, RoutedEventArgs e)
