@@ -3,16 +3,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525" MinHeight="350" MinWidth="525" WindowStartupLocation="CenterScreen">
     <Window.CommandBindings>
-        <CommandBinding Command="Open" Executed="CommandOpenBinding_Executed"></CommandBinding>
+        <CommandBinding Command="Open"  Executed="CommandOpenBinding_Executed"></CommandBinding>
+        <CommandBinding Command="SystemCommands.MinimizeWindowCommand" Executed="CommandMinimizeBinding_Executed"></CommandBinding>
     </Window.CommandBindings>
-    <DockPanel LastChildFill="True">
+    <DockPanel x:Name="LayoutRoot" LastChildFill="True">
         <Menu DockPanel.Dock="Top">
             <Menu.Items>
                 <MenuItem Header="Файл">
                     <MenuItem Header="Открыть" Command="Open"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="Вид">
-                    
+                    <MenuItem Header="Свернуть окно" Command="SystemCommands.MinimizeWindowCommand"></MenuItem>
+                    <MenuItem Header="Во весь экран" Click="MenuItemFullScreen_Click"></MenuItem>
                 </MenuItem>
             </Menu.Items>
         </Menu>
@@ -27,11 +29,11 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Label x:Name="lbTime" HorizontalAlignment="Center">00:00:00</Label>
-            <Button Grid.Column="1" x:Name="btnPreviousFile" IsEnabled="False">Previous</Button>
-            <Button Grid.Column="2" x:Name="btnMoveBackward" Click="btnMoveBackward_Click" IsEnabled="False">-5</Button>
-            <Button Grid.Column="3" x:Name="btnPlayPause" Click="btnPlayStop_Click" IsEnabled="False">Pause</Button>
-            <Button Grid.Column="4" x:Name="btnMoveForward" Click="btnMoveForward_Click" IsEnabled="False">+5</Button>
-            <Button Grid.Column="5" x:Name="btnNextFile" IsEnabled="False">Next</Button>
+            <Button Grid.Column="1" x:Name="btnPreviousFile" IsEnabled="False" Focusable="False" >Previous</Button>
+            <Button Grid.Column="2" x:Name="btnMoveBackward" Click="btnMoveBackward_Click" IsEnabled="False" Focusable="False" >-5</Button>
+            <Button Grid.Column="3" x:Name="btnPlayPause" Click="btnPlayStop_Click" IsEnabled="False" Focusable="False">Pause</Button>
+            <Button Grid.Column="4" x:Name="btnMoveForward" Click="btnMoveForward_Click" IsEnabled="False" Focusable="False" >+5</Button>
+            <Button Grid.Column="5" x:Name="btnNextFile" IsEnabled="False" Focusable="False" >Next</Button>
             <Slider Grid.Column="6" x:Name="slVolume" VerticalAlignment="Center" Minimum="0" Maximum="1" IsMoveToPointEnabled="True" Value="{Binding ElementName=mediaElement, Path=Volume, Mode=TwoWay}"></Slider>
         </Grid>
         <Slider DockPanel.Dock="Bottom" x:Name="slPosition" IsMoveToPointEnabled="True" 

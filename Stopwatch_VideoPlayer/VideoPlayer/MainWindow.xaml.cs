@@ -22,13 +22,29 @@ namespace VideoPlayer
     /// </summary>
     public partial class MainWindow : Window
     {
-        DispatcherTimer timer;
+        private DispatcherTimer timer;
+        private bool fullScreen = false;
         public MainWindow()
         {
             InitializeComponent();
             timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(0.1);
+            timer.Interval = TimeSpan.FromSeconds(0.2);
             timer.Tick += timer_Tick;
+            this.KeyDown += MainWindow_KeyDown;
+
+        }
+
+        void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                if (fullScreen == true) ChangeSizeScreen();
+            }
+            if (e.Key == Key.Enter)
+            {
+                ChangeSizeScreen();
+            }
+            if (e.Key == Key.Space) PlayPause();
         }
 
         void timer_Tick(object sender, EventArgs e)
@@ -41,8 +57,9 @@ namespace VideoPlayer
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = Environment.CurrentDirectory;
-            openFileDialog.Filter = "Video Files(*.mp4;*.mkv;*.wmv;*.avi)|*.mp4;*.mkv;*.wmv;*.avi|All files (*.*)|*.*";
+            openFileDialog.Filter = "Video files(*.mp4;*.mkv;*.wmv;*.avi)|*.mp4;*.mkv;*.wmv;*.avi|All files (*.*)|*.*";
             openFileDialog.RestoreDirectory = true;
+            openFileDialog.Multiselect = true;
             if (openFileDialog.ShowDialog() == true)
             {
                 mediaElement.Source = new Uri(openFileDialog.FileName);
@@ -59,7 +76,6 @@ namespace VideoPlayer
             btnMoveForward.IsEnabled = true;
             btnNextFile.IsEnabled = true;
             timer.Start();
-
         }
 
         private void timeLineSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -85,6 +101,11 @@ namespace VideoPlayer
 
         private void btnPlayStop_Click(object sender, RoutedEventArgs e)
         {
+            PlayPause();
+        }
+
+        private void PlayPause()
+        {
             if (btnPlayPause.Content.ToString() == "Pause")
             {
                 mediaElement.Pause();
@@ -94,8 +115,39 @@ namespace VideoPlayer
             {
                 mediaElement.Play();
                 btnPlayPause.Content = "Pause";
-
             }
+        }
+
+        private void CommandMinimizeBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            SystemCommands.MinimizeWindow(this);
+        }
+
+        private void MenuItemFullScreen_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeSizeScreen();
+        }
+
+        private void ChangeSizeScreen()
+        {
+            if (!fullScreen)
+            {
+                this.Content = mediaElement;
+                LayoutRoot.Children.Remove(mediaElement);
+                this.Background = new SolidColorBrush(Colors.Black);
+                this.WindowStyle = WindowStyle.None;
+                this.WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                TimeSpan position = mediaElement.Position; this.Content = LayoutRoot;
+                LayoutRoot.Children.Add(mediaElement);
+                this.Background = new SolidColorBrush(Colors.White);
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                this.WindowState = WindowState.Normal;
+                mediaElement.Position = position;
+            }
+            fullScreen = !fullScreen;
         }
     }
 }
