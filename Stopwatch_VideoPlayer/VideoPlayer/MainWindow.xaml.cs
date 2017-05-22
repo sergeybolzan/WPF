@@ -22,6 +22,7 @@ namespace VideoPlayer
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<string> playList = new List<string>();
         private DispatcherTimer timer;
         private bool fullScreen = false;
         public MainWindow()
@@ -64,6 +65,8 @@ namespace VideoPlayer
             {
                 mediaElement.Source = new Uri(openFileDialog.FileName);
                 mediaElement.Play();
+                playList.AddRange(openFileDialog.FileNames);
+                lbPlayList.ItemsSource = playList;
             }
         }
 
