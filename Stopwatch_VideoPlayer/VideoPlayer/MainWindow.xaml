@@ -7,6 +7,9 @@
         <CommandBinding Command="Open"  Executed="CommandOpenBinding_Executed"></CommandBinding>
         <CommandBinding Command="SystemCommands.MinimizeWindowCommand" Executed="CommandMinimizeBinding_Executed"></CommandBinding>
     </Window.CommandBindings>
+    <Window.Resources>
+        <cs:Converter x:Key="GetFileNameConverter"></cs:Converter>
+    </Window.Resources>
     <DockPanel x:Name="LayoutRoot" LastChildFill="True">
         <Menu DockPanel.Dock="Top">
             <Menu.Items>
@@ -30,21 +33,29 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Label x:Name="lbTime" HorizontalAlignment="Center">00:00:00</Label>
-            <Button Grid.Column="1" x:Name="btnPreviousFile" IsEnabled="False" Focusable="False" >Previous</Button>
+            <Button Grid.Column="1" x:Name="btnPreviousFile" Click="btnPreviousFile_Click" IsEnabled="False" Focusable="False" >Previous</Button>
             <Button Grid.Column="2" x:Name="btnMoveBackward" Click="btnMoveBackward_Click" IsEnabled="False" Focusable="False" >-5</Button>
             <Button Grid.Column="3" x:Name="btnPlayPause" Click="btnPlayStop_Click" IsEnabled="False" Focusable="False">Pause</Button>
-            <Button Grid.Column="4" x:Name="btnMoveForward" Click="btnMoveForward_Click" IsEnabled="False" Focusable="False" >+5</Button>
-            <Button Grid.Column="5" x:Name="btnNextFile" IsEnabled="False" Focusable="False" >Next</Button>
+            <Button Grid.Column="4" x:Name="btnMoveForward" Click="btnMoveForward_Click" IsEnabled="False" Focusable="False" Height="26" VerticalAlignment="Top" >+5</Button>
+            <Button Grid.Column="5" x:Name="btnNextFile" Click="btnNextFile_Click" IsEnabled="False" Focusable="False" >Next</Button>
             <Slider Grid.Column="6" x:Name="slVolume" VerticalAlignment="Center" Minimum="0" Maximum="1" IsMoveToPointEnabled="True" Value="{Binding ElementName=mediaElement, Path=Volume, Mode=TwoWay}"></Slider>
         </Grid>
         <Slider DockPanel.Dock="Bottom" x:Name="slPosition" IsMoveToPointEnabled="True" 
                 ValueChanged="timeLineSlider_ValueChanged"></Slider>
-        <Expander DockPanel.Dock="Right" Panel.ZIndex="2" ExpandDirection="Left">
-            <ListBox Panel.ZIndex="1" x:Name="lbPlayList"></ListBox>
+        
+        <Expander DockPanel.Dock="Right" ExpandDirection="Left">
+            <ListBox x:Name="lbPlayList" MaxWidth="200">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <ContentPresenter Content="{Binding Converter={StaticResource GetFileNameConverter}}"></ContentPresenter>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Expander>
         <MediaElement x:Name="mediaElement" LoadedBehavior="Manual"
                       MediaOpened="mediaElement_MediaOpened" 
-                      MediaEnded="mediaElement_MediaEnded"></MediaElement>
-
+                      MediaEnded="mediaElement_MediaEnded"
+                      Source="{Binding ElementName=lbPlayList, Path=SelectedItem}">
+        </MediaElement>
     </DockPanel>
 </Window>

@@ -63,28 +63,33 @@ namespace VideoPlayer
             openFileDialog.Multiselect = true;
             if (openFileDialog.ShowDialog() == true)
             {
-                mediaElement.Source = new Uri(openFileDialog.FileName);
-                mediaElement.Play();
+                //mediaElement.Source = new Uri(openFileDialog.FileName);
+                playList.Clear();
                 playList.AddRange(openFileDialog.FileNames);
+                lbPlayList.ItemsSource = null;
                 lbPlayList.ItemsSource = playList;
+                lbPlayList.SelectedIndex = 0;
+                mediaElement.Play();
             }
         }
 
         private void mediaElement_MediaOpened(object sender, RoutedEventArgs e)
         {
-            slPosition.Maximum = mediaElement.NaturalDuration.TimeSpan.TotalMilliseconds;
-            btnPlayPause.IsEnabled = true;
-            btnPreviousFile.IsEnabled = true;
-            btnMoveBackward.IsEnabled = true;
-            btnMoveForward.IsEnabled = true;
-            btnNextFile.IsEnabled = true;
-            timer.Start();
+            if (mediaElement.NaturalDuration.HasTimeSpan)
+            {
+                slPosition.Maximum = mediaElement.NaturalDuration.TimeSpan.TotalMilliseconds;
+                btnPlayPause.IsEnabled = true;
+                btnPreviousFile.IsEnabled = true;
+                btnMoveBackward.IsEnabled = true;
+                btnMoveForward.IsEnabled = true;
+                btnNextFile.IsEnabled = true;
+                timer.Start();
+            }
         }
 
         private void timeLineSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             mediaElement.Position = TimeSpan.FromMilliseconds(slPosition.Value);
-
         }
 
         private void btnMoveBackward_Click(object sender, RoutedEventArgs e)
@@ -151,6 +156,18 @@ namespace VideoPlayer
                 mediaElement.Position = position;
             }
             fullScreen = !fullScreen;
+        }
+
+        private void btnNextFile_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbPlayList.Items.Count == lbPlayList.SelectedIndex + 1) lbPlayList.SelectedIndex = 0;
+            else lbPlayList.SelectedIndex++;
+        }
+
+        private void btnPreviousFile_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbPlayList.SelectedIndex == 0) lbPlayList.SelectedIndex = lbPlayList.Items.Count - 1;
+            else lbPlayList.SelectedIndex--;
         }
     }
 }
