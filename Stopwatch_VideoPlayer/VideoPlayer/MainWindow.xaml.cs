@@ -32,7 +32,7 @@ namespace VideoPlayer
             timer.Interval = TimeSpan.FromSeconds(0.2);
             timer.Tick += timer_Tick;
             this.KeyDown += MainWindow_KeyDown;
-
+            lbPlayList.ItemsSource = playList;
         }
 
         void MainWindow_KeyDown(object sender, KeyEventArgs e)
@@ -63,11 +63,9 @@ namespace VideoPlayer
             openFileDialog.Multiselect = true;
             if (openFileDialog.ShowDialog() == true)
             {
-                //mediaElement.Source = new Uri(openFileDialog.FileName);
                 playList.Clear();
                 playList.AddRange(openFileDialog.FileNames);
-                lbPlayList.ItemsSource = null;
-                lbPlayList.ItemsSource = playList;
+                lbPlayList.Items.Refresh();
                 lbPlayList.SelectedIndex = 0;
                 mediaElement.Play();
             }
@@ -78,13 +76,18 @@ namespace VideoPlayer
             if (mediaElement.NaturalDuration.HasTimeSpan)
             {
                 slPosition.Maximum = mediaElement.NaturalDuration.TimeSpan.TotalMilliseconds;
-                btnPlayPause.IsEnabled = true;
-                btnPreviousFile.IsEnabled = true;
-                btnMoveBackward.IsEnabled = true;
-                btnMoveForward.IsEnabled = true;
-                btnNextFile.IsEnabled = true;
-                timer.Start();
+                EnableButtons();
             }
+        }
+
+        private void EnableButtons()
+        {
+            btnPlayPause.IsEnabled = true;
+            btnPreviousFile.IsEnabled = true;
+            btnMoveBackward.IsEnabled = true;
+            btnMoveForward.IsEnabled = true;
+            btnNextFile.IsEnabled = true;
+            timer.Start();
         }
 
         private void timeLineSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -104,7 +107,8 @@ namespace VideoPlayer
 
         private void mediaElement_MediaEnded(object sender, RoutedEventArgs e)
         {
-            //timer.Stop();
+            if (lbPlayList.Items.Count == lbPlayList.SelectedIndex + 1) lbPlayList.SelectedIndex = 0;
+            else lbPlayList.SelectedIndex++;
         }
 
         private void btnPlayStop_Click(object sender, RoutedEventArgs e)
@@ -169,5 +173,26 @@ namespace VideoPlayer
             if (lbPlayList.SelectedIndex == 0) lbPlayList.SelectedIndex = lbPlayList.Items.Count - 1;
             else lbPlayList.SelectedIndex--;
         }
+
+        private void MenuItemAddToPlaylist_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Environment.CurrentDirectory;
+            openFileDialog.Filter = "Video files(*.mp4;*.mkv;*.wmv;*.avi)|*.mp4;*.mkv;*.wmv;*.avi|All files (*.*)|*.*";
+            openFileDialog.RestoreDirectory = true;
+            openFileDialog.Multiselect = true;
+            if (openFileDialog.ShowDialog() == true)
+            {
+                if (playList.Count == 0)
+                {
+                    EnableButtons();
+                    btnPlayPause.Content = "Play";
+                    lbPlayList.SelectedIndex = 0;
+                }
+                playList.AddRange(openFileDialog.FileNames);
+                lbPlayList.Items.Refresh();
+            }
+        }
+
     }
 }
