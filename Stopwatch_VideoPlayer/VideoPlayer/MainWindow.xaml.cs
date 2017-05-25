@@ -35,31 +35,14 @@ namespace VideoPlayer
             lbPlayList.ItemsSource = playList;
         }
 
-        void MainWindow_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Escape)
-            {
-                if (fullScreen == true) ChangeSizeScreen();
-            }
-            if (e.Key == Key.Enter)
-            {
-                ChangeSizeScreen();
-            }
-            if (e.Key == Key.Space) PlayPause();
-        }
 
-        void timer_Tick(object sender, EventArgs e)
-        {
-            slPosition.Value = mediaElement.Position.TotalMilliseconds;
-            lbTime.Content = mediaElement.Position.ToString(@"hh\:mm\:ss");
-        }
-
+        #region Menu events handlers
+        //Файл - Открыть
         private void CommandOpenBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = Environment.CurrentDirectory;
             openFileDialog.Filter = "Video files(*.mp4;*.mkv;*.wmv;*.avi)|*.mp4;*.mkv;*.wmv;*.avi|All files (*.*)|*.*";
-            openFileDialog.RestoreDirectory = true;
             openFileDialog.Multiselect = true;
             if (openFileDialog.ShowDialog() == true)
             {
@@ -71,6 +54,42 @@ namespace VideoPlayer
             }
         }
 
+        //Файл - Добавить в плейлист
+        private void MenuItemAddToPlaylist_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Environment.CurrentDirectory;
+            openFileDialog.Filter = "Video files(*.mp4;*.mkv;*.wmv;*.avi)|*.mp4;*.mkv;*.wmv;*.avi|All files (*.*)|*.*";
+            openFileDialog.Multiselect = true;
+            if (openFileDialog.ShowDialog() == true)
+            {
+                if (playList.Count == 0)
+                {
+                    EnableButtons();
+                    btnPlayPause.Content = "Воспроизведение";
+                    lbPlayList.SelectedIndex = 0;
+                }
+                playList.AddRange(openFileDialog.FileNames);
+                lbPlayList.Items.Refresh();
+            }
+        }
+
+        //Свернуть окно
+        private void CommandMinimizeBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            SystemCommands.MinimizeWindow(this);
+        }
+
+        //Во весь экран
+        private void MenuItemFullScreen_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeSizeScreen();
+        }
+        #endregion
+
+
+        #region MediaElement events handlers
+        //При открытии контента указываем таймлайну максимальное значение и активируем кнопки
         private void mediaElement_MediaOpened(object sender, RoutedEventArgs e)
         {
             if (mediaElement.NaturalDuration.HasTimeSpan)
@@ -80,66 +99,71 @@ namespace VideoPlayer
             }
         }
 
-        private void EnableButtons()
-        {
-            btnPlayPause.IsEnabled = true;
-            btnPreviousFile.IsEnabled = true;
-            btnMoveBackward.IsEnabled = true;
-            btnMoveForward.IsEnabled = true;
-            btnNextFile.IsEnabled = true;
-            timer.Start();
-        }
-
-        private void timeLineSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            mediaElement.Position = TimeSpan.FromMilliseconds(slPosition.Value);
-        }
-
-        private void btnMoveBackward_Click(object sender, RoutedEventArgs e)
-        {
-            mediaElement.Position = mediaElement.Position - TimeSpan.FromSeconds(5);
-        }
-
-        private void btnMoveForward_Click(object sender, RoutedEventArgs e)
-        {
-            mediaElement.Position = mediaElement.Position + TimeSpan.FromSeconds(5);
-        }
-
+        //По завершению видео включаем следующее в плейлисте
         private void mediaElement_MediaEnded(object sender, RoutedEventArgs e)
         {
             if (lbPlayList.Items.Count == lbPlayList.SelectedIndex + 1) lbPlayList.SelectedIndex = 0;
             else lbPlayList.SelectedIndex++;
         }
+        #endregion
 
+
+        #region Buttons clicks events handlers
+        //Кнопка "-5". Перематываем назад на 5 сек
+        private void btnMoveBackward_Click(object sender, RoutedEventArgs e)
+        {
+            mediaElement.Position = mediaElement.Position - TimeSpan.FromSeconds(5);
+        }
+
+        //Кнопка "+5". Перематываем вперед на 5 сек
+        private void btnMoveForward_Click(object sender, RoutedEventArgs e)
+        {
+            mediaElement.Position = mediaElement.Position + TimeSpan.FromSeconds(5);
+        }
+
+        //Кнопка "Пауза/Воспроизведение"
         private void btnPlayStop_Click(object sender, RoutedEventArgs e)
         {
             PlayPause();
         }
 
+        //Кнопка "Следующий". Если текущее видео - последнее, то включаем первое видео из плейлиста, либо включаем следующее
+        private void btnNextFile_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbPlayList.Items.Count == lbPlayList.SelectedIndex + 1) lbPlayList.SelectedIndex = 0;
+            else lbPlayList.SelectedIndex++;
+        }
+
+        //Кнопка "Предыдущий". Если текущее видео - первое, то включаем последнее из плейлиста, либо включаем предыдущее 
+        private void btnPreviousFile_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbPlayList.SelectedIndex == 0) lbPlayList.SelectedIndex = lbPlayList.Items.Count - 1;
+            else lbPlayList.SelectedIndex--;
+        }
+        #endregion
+
+
+        #region Methods
+        /// <summary>
+        /// Воспроизводим или останавливаем видео
+        /// </summary>
         private void PlayPause()
         {
-            if (btnPlayPause.Content.ToString() == "Pause")
+            if (btnPlayPause.Content.ToString() == "Пауза")
             {
                 mediaElement.Pause();
-                btnPlayPause.Content = "Play";
+                btnPlayPause.Content = "Воспроизведение";
             }
             else
             {
                 mediaElement.Play();
-                btnPlayPause.Content = "Pause";
+                btnPlayPause.Content = "Пауза";
             }
         }
 
-        private void CommandMinimizeBinding_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            SystemCommands.MinimizeWindow(this);
-        }
-
-        private void MenuItemFullScreen_Click(object sender, RoutedEventArgs e)
-        {
-            ChangeSizeScreen();
-        }
-
+        /// <summary>
+        /// Включаем либо выключаем полноэкранный режим
+        /// </summary>
         private void ChangeSizeScreen()
         {
             if (!fullScreen)
@@ -162,37 +186,46 @@ namespace VideoPlayer
             fullScreen = !fullScreen;
         }
 
-        private void btnNextFile_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Активируем кнопки и запускаем таймер
+        /// </summary>
+        private void EnableButtons()
         {
-            if (lbPlayList.Items.Count == lbPlayList.SelectedIndex + 1) lbPlayList.SelectedIndex = 0;
-            else lbPlayList.SelectedIndex++;
+            btnPlayPause.IsEnabled = true;
+            btnPreviousFile.IsEnabled = true;
+            btnMoveBackward.IsEnabled = true;
+            btnMoveForward.IsEnabled = true;
+            btnNextFile.IsEnabled = true;
+            timer.Start();
+        }
+        #endregion
+
+
+        //Обработчик таймера. Смещается таймлайн и меняется лейбл с текущим временем воспроизведения
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            slPosition.Value = mediaElement.Position.TotalMilliseconds;
+            lbTime.Content = mediaElement.Position.ToString(@"hh\:mm\:ss");
         }
 
-        private void btnPreviousFile_Click(object sender, RoutedEventArgs e)
+        //Перемещаем воспроизведение видео на позицию, соответствующую положению таймлайна
+        private void timeLineSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (lbPlayList.SelectedIndex == 0) lbPlayList.SelectedIndex = lbPlayList.Items.Count - 1;
-            else lbPlayList.SelectedIndex--;
+            mediaElement.Position = TimeSpan.FromMilliseconds(slPosition.Value);
         }
 
-        private void MenuItemAddToPlaylist_Click(object sender, RoutedEventArgs e)
+        //Хоткеи. "Enter" - вкл/выкл полноэкранного режима. "Пробел" - Воспроизведение/Пауза
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.InitialDirectory = Environment.CurrentDirectory;
-            openFileDialog.Filter = "Video files(*.mp4;*.mkv;*.wmv;*.avi)|*.mp4;*.mkv;*.wmv;*.avi|All files (*.*)|*.*";
-            openFileDialog.RestoreDirectory = true;
-            openFileDialog.Multiselect = true;
-            if (openFileDialog.ShowDialog() == true)
+            if (e.Key == Key.Escape)
             {
-                if (playList.Count == 0)
-                {
-                    EnableButtons();
-                    btnPlayPause.Content = "Play";
-                    lbPlayList.SelectedIndex = 0;
-                }
-                playList.AddRange(openFileDialog.FileNames);
-                lbPlayList.Items.Refresh();
+                if (fullScreen == true) ChangeSizeScreen();
             }
+            if (e.Key == Key.Enter)
+            {
+                ChangeSizeScreen();
+            }
+            if (e.Key == Key.Space) PlayPause();
         }
-
     }
 }
