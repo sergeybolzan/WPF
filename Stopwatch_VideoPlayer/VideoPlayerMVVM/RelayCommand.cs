@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace VideoPlayerMVVM
 {
-    class RelayCommand : ICommand   
+    public class RelayCommand : ICommand   
     {
         readonly Action<object> _execute;
         readonly Predicate<object> _canExecute;

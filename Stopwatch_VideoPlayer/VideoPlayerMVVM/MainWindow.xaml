@@ -17,7 +17,7 @@
         <Menu DockPanel.Dock="Top">
             <Menu.Items>
                 <MenuItem Header="Файл">
-                    <MenuItem Header="Открыть"></MenuItem>
+                    <MenuItem Header="Открыть" Command="{Binding OpenFiles}"></MenuItem>
                     <MenuItem Header="Добавить в плейлист"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="Вид">
@@ -47,7 +47,7 @@
         <Slider DockPanel.Dock="Bottom" x:Name="slPosition" IsMoveToPointEnabled="True"></Slider>
         
         <Expander DockPanel.Dock="Right" ExpandDirection="Left">
-            <ListBox x:Name="lbPlayList" MaxWidth="200">
+            <ListBox x:Name="lbPlayList" MaxWidth="200" ItemsSource="{Binding PlayList}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <ContentPresenter Content="{Binding Converter={StaticResource GetFileNameConverter}}"></ContentPresenter>
