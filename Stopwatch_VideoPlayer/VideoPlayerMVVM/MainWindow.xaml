@@ -1,0 +1,62 @@
+﻿<Window x:Class="VideoPlayerMVVM.MainWindow" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:project="clr-namespace:VideoPlayerMVVM"
+        Title="MainWindow" Height="350" Width="525" MinHeight="350" MinWidth="525" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <project:MainWindowViewModel></project:MainWindowViewModel>
+    </Window.DataContext>
+    <Window.CommandBindings>
+        <!--<CommandBinding Command="Open"  Executed="CommandOpenBinding_Executed"></CommandBinding>
+        <CommandBinding Command="SystemCommands.MinimizeWindowCommand" Executed="CommandMinimizeBinding_Executed"></CommandBinding>-->
+    </Window.CommandBindings>
+    <Window.Resources>
+        <project:Converter x:Key="GetFileNameConverter"></project:Converter>
+    </Window.Resources>
+    <DockPanel x:Name="LayoutRoot" LastChildFill="True">
+        <Menu DockPanel.Dock="Top">
+            <Menu.Items>
+                <MenuItem Header="Файл">
+                    <MenuItem Header="Открыть"></MenuItem>
+                    <MenuItem Header="Добавить в плейлист"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Вид">
+                    <MenuItem Header="Свернуть окно"></MenuItem>
+                    <MenuItem Header="Во весь экран"></MenuItem>
+                </MenuItem>
+            </Menu.Items>
+        </Menu>
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="lbTime" HorizontalAlignment="Center">00:00:00</Label>
+            <Button Grid.Column="1" x:Name="btnPreviousFile" IsEnabled="False" Focusable="False" >Предыдущий</Button>
+            <Button Grid.Column="2" x:Name="btnMoveBackward" IsEnabled="False" Focusable="False" >-5</Button>
+            <Button Grid.Column="3" x:Name="btnPlayPause" IsEnabled="False" KeyboardNavigation.AcceptsReturn="False">Пауза</Button>
+            <Button Grid.Column="4" x:Name="btnMoveForward" IsEnabled="False" Focusable="False" Height="26" VerticalAlignment="Top" >+5</Button>
+            <Button Grid.Column="5" x:Name="btnNextFile" IsEnabled="False" Focusable="False" >Следующий</Button>
+            <Slider Grid.Column="6" x:Name="slVolume" VerticalAlignment="Center" Minimum="0" Maximum="1" IsMoveToPointEnabled="True" Value="{Binding ElementName=mediaElement, Path=Volume, Mode=TwoWay}"></Slider>
+        </Grid>
+        <Slider DockPanel.Dock="Bottom" x:Name="slPosition" IsMoveToPointEnabled="True"></Slider>
+        
+        <Expander DockPanel.Dock="Right" ExpandDirection="Left">
+            <ListBox x:Name="lbPlayList" MaxWidth="200">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <ContentPresenter Content="{Binding Converter={StaticResource GetFileNameConverter}}"></ContentPresenter>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Expander>
+        <MediaElement x:Name="mediaElement" LoadedBehavior="Manual" 
+                      Source="{Binding ElementName=lbPlayList, Path=SelectedItem}">
+        </MediaElement>
+    </DockPanel>
+</Window>
