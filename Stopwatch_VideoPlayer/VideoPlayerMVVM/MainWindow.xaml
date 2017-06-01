@@ -18,7 +18,7 @@
             <Menu.Items>
                 <MenuItem Header="Файл">
                     <MenuItem Header="Открыть" Command="{Binding OpenFiles}"></MenuItem>
-                    <MenuItem Header="Добавить в плейлист"></MenuItem>
+                    <MenuItem Header="Добавить в плейлист" Command="{Binding AddFilesToPlayList}"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="Вид">
                     <MenuItem Header="Свернуть окно"></MenuItem>
@@ -36,7 +36,7 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label x:Name="lbTime" HorizontalAlignment="Center">00:00:00</Label>
+            <Label x:Name="lbTime" HorizontalAlignment="Center" Content="{Binding ElementName=mediaElement, Path=Position}"></Label>
             <Button Grid.Column="1" x:Name="btnPreviousFile" IsEnabled="False" Focusable="False" >Предыдущий</Button>
             <Button Grid.Column="2" x:Name="btnMoveBackward" IsEnabled="False" Focusable="False" >-5</Button>
             <Button Grid.Column="3" x:Name="btnPlayPause" IsEnabled="False" KeyboardNavigation.AcceptsReturn="False">Пауза</Button>
@@ -44,10 +44,10 @@
             <Button Grid.Column="5" x:Name="btnNextFile" IsEnabled="False" Focusable="False" >Следующий</Button>
             <Slider Grid.Column="6" x:Name="slVolume" VerticalAlignment="Center" Minimum="0" Maximum="1" IsMoveToPointEnabled="True" Value="{Binding ElementName=mediaElement, Path=Volume, Mode=TwoWay}"></Slider>
         </Grid>
-        <Slider DockPanel.Dock="Bottom" x:Name="slPosition" IsMoveToPointEnabled="True"></Slider>
+        <Slider DockPanel.Dock="Bottom" x:Name="slPosition" IsMoveToPointEnabled="True" Value="{Binding ElementName=mediaElement, Path=Position.TotalMilliseconds, Mode=OneWay}"></Slider>
         
-        <Expander DockPanel.Dock="Right" ExpandDirection="Left">
-            <ListBox x:Name="lbPlayList" MaxWidth="200" ItemsSource="{Binding PlayList}">
+        <Expander DockPanel.Dock="Right" ExpandDirection="Left" >
+            <ListBox x:Name="lbPlayList" MaxWidth="200" ItemsSource="{Binding PlayList}" SelectedIndex="0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <ContentPresenter Content="{Binding Converter={StaticResource GetFileNameConverter}}"></ContentPresenter>
@@ -55,7 +55,7 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </Expander>
-        <MediaElement x:Name="mediaElement" LoadedBehavior="Manual" 
+        <MediaElement x:Name="mediaElement" LoadedBehavior="Play" 
                       Source="{Binding ElementName=lbPlayList, Path=SelectedItem}">
         </MediaElement>
     </DockPanel>
