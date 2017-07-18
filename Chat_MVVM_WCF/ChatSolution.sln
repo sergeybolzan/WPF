@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatService", "ChatService\ChatService.csproj", "{A0BC9FFD-33F7-4FCB-A97B-13C6AD5BE142}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatClientWPF", "ChatClientWPF\ChatClientWPF.csproj", "{C2B82DF9-1E4D-4E35-803D-3B3EC64518FC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A0BC9FFD-33F7-4FCB-A97B-13C6AD5BE142} = {A0BC9FFD-33F7-4FCB-A97B-13C6AD5BE142}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A0BC9FFD-33F7-4FCB-A97B-13C6AD5BE142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0BC9FFD-33F7-4FCB-A97B-13C6AD5BE142}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0BC9FFD-33F7-4FCB-A97B-13C6AD5BE142}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0BC9FFD-33F7-4FCB-A97B-13C6AD5BE142}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2B82DF9-1E4D-4E35-803D-3B3EC64518FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2B82DF9-1E4D-4E35-803D-3B3EC64518FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2B82DF9-1E4D-4E35-803D-3B3EC64518FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2B82DF9-1E4D-4E35-803D-3B3EC64518FC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
