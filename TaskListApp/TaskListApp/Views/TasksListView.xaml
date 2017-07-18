@@ -1,0 +1,29 @@
+﻿<catel:UserControl x:Class="TaskListApp2.Views.TasksListView"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				   xmlns:catel="http://catel.codeplex.com">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label FontSize="20" HorizontalAlignment="Center">Список задач</Label>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Tasks}" AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Binding="{Binding Path=Id}" Width="auto"></DataGridTextColumn>
+                <DataGridTextColumn Header="Название" Binding="{Binding Path=Name}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Объем работы" Binding="{Binding Path=Workload}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата начала" Binding="{Binding Path=BeginDate}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата окончания" Binding="{Binding Path=EndDate}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Path=Status}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Исполнитель" Binding="{Binding Path=Person}" Width="*"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Command="{Binding AddNewTask}" Margin="5" Width="70">Добавить</Button>
+            <Button Margin="5" Width="70">Изменить</Button>
+            <Button Margin="5" Width="70">Удалить</Button>
+        </StackPanel>
+    </Grid>
+</catel:UserControl>
