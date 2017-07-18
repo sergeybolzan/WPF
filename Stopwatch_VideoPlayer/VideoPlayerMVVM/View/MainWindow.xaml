@@ -1,17 +1,17 @@
 ﻿<Window x:Class="VideoPlayerMVVM.MainWindow" 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:project="clr-namespace:VideoPlayerMVVM"
+        xmlns:local="clr-namespace:VideoPlayerMVVM"
         Title="MainWindow" Height="350" Width="525" MinHeight="350" MinWidth="525" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
-        <project:MainWindowViewModel></project:MainWindowViewModel>
+        <local:MainWindowViewModel></local:MainWindowViewModel>
     </Window.DataContext>
     <Window.CommandBindings>
         <!--<CommandBinding Command="Open"  Executed="CommandOpenBinding_Executed"></CommandBinding>
         <CommandBinding Command="SystemCommands.MinimizeWindowCommand" Executed="CommandMinimizeBinding_Executed"></CommandBinding>-->
     </Window.CommandBindings>
     <Window.Resources>
-        <project:Converter x:Key="GetFileNameConverter"></project:Converter>
+        <local:Converter x:Key="GetFileNameConverter"></local:Converter>
     </Window.Resources>
     <DockPanel x:Name="LayoutRoot" LastChildFill="True">
         <Menu DockPanel.Dock="Top">
