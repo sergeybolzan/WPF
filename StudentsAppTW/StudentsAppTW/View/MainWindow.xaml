@@ -1,0 +1,12 @@
+﻿<Window x:Class="StudentsAppTW.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:StudentsAppTW.ViewModel"
+        Title="MainWindow" Height="480" Width="720" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <local:MainWindowViewModel></local:MainWindowViewModel>
+    </Window.DataContext>
+    <Grid>
+        
+    </Grid>
+</Window>
