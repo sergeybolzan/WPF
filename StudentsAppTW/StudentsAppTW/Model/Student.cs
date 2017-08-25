@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,11 +22,11 @@ namespace StudentsAppTW.Model
     public partial class Students
     {
 
-        private StudentsStudent[] studentField;
+        private ObservableCollection<StudentsStudent> studentField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Student")]
-        public StudentsStudent[] Student
+        public ObservableCollection<StudentsStudent> Student
         {
             get
             {
@@ -47,9 +48,9 @@ namespace StudentsAppTW.Model
 
         private string lastField;
 
-        private byte ageField;
+        private int ageField;
 
-        private byte genderField;
+        private bool genderField;
 
         private byte idField;
 
@@ -80,7 +81,7 @@ namespace StudentsAppTW.Model
         }
 
         /// <remarks/>
-        public byte Age
+        public int Age
         {
             get
             {
@@ -93,7 +94,7 @@ namespace StudentsAppTW.Model
         }
 
         /// <remarks/>
-        public byte Gender
+        public bool Gender
         {
             get
             {

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using StudentsAppTW.Infrastructure;
+using StudentsAppTW.Model;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -21,5 +24,16 @@ namespace StudentsAppTW.ViewModel
         }
         #endregion // INotifyPropertyChanged Members
 
+        ObservableCollection<StudentsStudent> _clients;
+        public ObservableCollection<StudentsStudent> Clients
+        {
+            get
+            {
+                if (_clients == null)
+                    _clients = XmlHelper.XmlDeserialize<Students>("Students.xml").Student;//ClientRepository.AllClients;
+                return _clients;
+            }
+        }
+        
     }
 }
