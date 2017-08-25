@@ -55,6 +55,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Infrastructure\RelayCommand.cs" />
+    <Compile Include="Infrastructure\XmlHelper.cs" />
+    <Compile Include="Infrastructure\XmlHelperException.cs" />
     <Compile Include="Model\Student.cs" />
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
