@@ -8,26 +8,17 @@ using System.Threading.Tasks;
 
 namespace StudentsAppTW.Model
 {
-    //class Student
-    //{
-    //    public int Id { get; set; }
-    //    public string Firstname { get; set; }
-    //    public string Lastname { get; set; }
-    //    public int Age { get; set; }
-    //    public bool Gender { get; set; }
-    //}
-
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public partial class Students
     {
 
-        private ObservableCollection<StudentsStudent> studentField;
+        private ObservableCollection<Student> studentField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Student")]
-        public ObservableCollection<StudentsStudent> Student
+        public ObservableCollection<Student> Student
         {
             get
             {
@@ -42,7 +33,7 @@ namespace StudentsAppTW.Model
 
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class StudentsStudent : INotifyPropertyChanged
+    public partial class Student : INotifyPropertyChanged
     {
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;

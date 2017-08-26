@@ -18,7 +18,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <ListBox ItemsSource="{Binding Students}" SelectedItem="{Binding SelectedStudent}" x:Name="lbStudents" HorizontalContentAlignment="Stretch" AlternationCount="2">
+        <ListBox ItemsSource="{Binding Students}" x:Name="lbStudents" SelectedItem="{Binding SelectedStudent}" HorizontalContentAlignment="Stretch" AlternationCount="2" SelectionMode="Multiple">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
                     <Style.Triggers>
@@ -86,8 +86,20 @@
             <StackPanel Margin="20,0,0,0" VerticalAlignment="Center">
                 <Button Margin="5" Width="120" Height="25" Command="{Binding AddStudent}">Добавить</Button>
                 <Button Margin="5" Width="120" Height="25" Command="{Binding EditStudent}">Редактировать</Button>
-                <Button Margin="5" Width="120" Height="25" Command="{Binding DeleteStudent}">Удалить</Button>
+                <Button Margin="5" Width="120" Height="25" Command="{Binding RemoveStudent}" CommandParameter="{Binding ElementName=lbStudents, Path=SelectedItems}">Удалить</Button>
             </StackPanel>
         </StackPanel>
+        <Popup IsOpen="{Binding IsPopupOnEmptyShow}" Grid.Row="0" Grid.Column="0" StaysOpen="False" Placement="Mouse" MaxWidth="180"
+               PopupAnimation="Scroll" AllowsTransparency="True">
+            <Border BorderBrush="Gainsboro" BorderThickness="2" Background="White">
+                <TextBlock Margin="10" TextWrapping="Wrap" Text="Поля не могут быть пустыми."/>
+            </Border>
+        </Popup>
+        <Popup IsOpen="{Binding IsPopupOnOutOfRangeShow}" Grid.Row="0" Grid.Column="0" StaysOpen="False" Placement="Mouse" MaxWidth="180"
+               PopupAnimation="Scroll" AllowsTransparency="True">
+            <Border BorderBrush="Gainsboro" BorderThickness="2" Background="White">
+                <TextBlock Margin="10" TextWrapping="Wrap" Text="Возраст должен лежать в пределах от 16 до 100 лет."/>
+            </Border>
+        </Popup>
     </Grid>
 </Window>
