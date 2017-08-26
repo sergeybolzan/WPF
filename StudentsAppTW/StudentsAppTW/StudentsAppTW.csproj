@@ -56,6 +56,7 @@
     </ApplicationDefinition>
     <Compile Include="Infrastructure\AgeConverter.cs" />
     <Compile Include="Infrastructure\GenderConverter.cs" />
+    <Compile Include="Infrastructure\InvertBoolConverter.cs" />
     <Compile Include="Infrastructure\RelayCommand.cs" />
     <Compile Include="Infrastructure\XmlHelper.cs" />
     <Compile Include="Infrastructure\XmlHelperException.cs" />

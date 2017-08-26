@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,8 +42,19 @@ namespace StudentsAppTW.Model
 
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class StudentsStudent
+    public partial class StudentsStudent : INotifyPropertyChanged
     {
+        #region INotifyPropertyChanged Members
+        public event PropertyChangedEventHandler PropertyChanged;
+        public virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = this.PropertyChanged;
+            if (handler != null)
+            {
+                handler.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+        #endregion // INotifyPropertyChanged Members
 
         private string firstNameField;
 
@@ -52,7 +64,7 @@ namespace StudentsAppTW.Model
 
         private bool genderField;
 
-        private byte idField;
+        private int idField;
 
         /// <remarks/>
         public string FirstName
@@ -64,6 +76,7 @@ namespace StudentsAppTW.Model
             set
             {
                 this.firstNameField = value;
+                OnPropertyChanged("FirstName");
             }
         }
 
@@ -77,6 +90,7 @@ namespace StudentsAppTW.Model
             set
             {
                 this.lastField = value;
+                OnPropertyChanged("Last");
             }
         }
 
@@ -90,6 +104,7 @@ namespace StudentsAppTW.Model
             set
             {
                 this.ageField = value;
+                OnPropertyChanged("Age");
             }
         }
 
@@ -103,12 +118,13 @@ namespace StudentsAppTW.Model
             set
             {
                 this.genderField = value;
+                OnPropertyChanged("Gender");
             }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public byte Id
+        public int Id
         {
             get
             {
@@ -117,6 +133,7 @@ namespace StudentsAppTW.Model
             set
             {
                 this.idField = value;
+                OnPropertyChanged("Id");
             }
         }
     }

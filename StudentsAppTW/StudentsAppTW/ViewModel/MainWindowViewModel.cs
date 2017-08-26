@@ -24,16 +24,95 @@ namespace StudentsAppTW.ViewModel
         }
         #endregion // INotifyPropertyChanged Members
 
-        ObservableCollection<StudentsStudent> _clients;
-        public ObservableCollection<StudentsStudent> Clients
+        ObservableCollection<StudentsStudent> students;
+        public ObservableCollection<StudentsStudent> Students   
         {
             get
             {
-                if (_clients == null)
-                    _clients = XmlHelper.XmlDeserialize<Students>("Students.xml").Student;//ClientRepository.AllClients;
-                return _clients;
+                if (students == null)
+                    students = XmlHelper.XmlDeserialize<Students>("Students.xml").Student;//ClientRepository.AllClients;
+                return students;
             }
         }
-        
+
+        private StudentsStudent selectedStudent = new StudentsStudent();
+        public StudentsStudent SelectedStudent
+        {
+            get
+            {
+                return selectedStudent ?? (selectedStudent = new StudentsStudent());
+            }
+            set
+            {
+                selectedStudent = value;
+                OnPropertyChanged("SelectedStudent");
+                if (selectedStudent != null)
+                {
+                    CurrentStudent.FirstName = selectedStudent.FirstName;
+                    CurrentStudent.Last = selectedStudent.Last;
+                    CurrentStudent.Age = selectedStudent.Age;
+                    CurrentStudent.Gender = selectedStudent.Gender;
+                }
+            }
+        }
+
+        private StudentsStudent currentStudent = new StudentsStudent();
+        public StudentsStudent CurrentStudent
+        {
+            get
+            {
+                return currentStudent ?? (currentStudent = new StudentsStudent());
+            }
+            set
+            {
+                currentStudent = value;
+                OnPropertyChanged("CurrentStudent");
+            }
+        }
+
+        private RelayCommand addStudent;
+        public RelayCommand AddStudent
+        {
+            get 
+            {
+                return addStudent ?? (addStudent = new RelayCommand(obj =>
+                    {
+                        CurrentStudent.Id = Students.Count;
+                        Students.Add(CurrentStudent);
+                        CurrentStudent = null;
+                    }));
+            }
+        }
+
+        private RelayCommand editStudent;
+        public RelayCommand EditStudent
+        {
+            get
+            {
+                return editStudent ?? (editStudent = new RelayCommand(obj =>
+                {
+                    SelectedStudent.FirstName = CurrentStudent.FirstName;
+                    SelectedStudent.Last = CurrentStudent.Last;
+                    SelectedStudent.Age = CurrentStudent.Age;
+                    SelectedStudent.Gender = CurrentStudent.Gender;
+                }));
+            }
+        }
+
+        private RelayCommand deleteStudent;
+        public RelayCommand DeleteStudent
+        {
+            get
+            {
+                return deleteStudent ?? (deleteStudent = new RelayCommand(obj =>
+                {
+                    if (SelectedStudent != null)
+                    {
+                        Students.Remove(SelectedStudent);
+                    }
+                }));
+            }
+        }
+
     }
 }

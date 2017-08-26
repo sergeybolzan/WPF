@@ -10,23 +10,7 @@
     <Window.Resources>
         <Infrastructure:AgeConverter x:Key="AgeConverter"/>
         <Infrastructure:GenderConverter x:Key="GenderConverter"/>
-        <DataTemplate x:Key="StudentTemplate">
-            <StackPanel Orientation="Vertical" Margin="1,5,1,7">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock FontSize="16" Text="{Binding Path=Last}"/>
-                    <TextBlock Text=" "/>
-                    <TextBlock FontSize="16" Text="{Binding Path=FirstName}"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Возраст: "/>
-                    <TextBlock Text="{Binding Path=Age, Converter={StaticResource AgeConverter}}"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Пол: "/>
-                    <TextBlock Text="{Binding Path=Gender, Converter={StaticResource GenderConverter}}"/>
-                </StackPanel>
-            </StackPanel>
-        </DataTemplate>
+        <Infrastructure:InvertBoolConverter x:Key="InvertBoolConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -34,7 +18,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <ListBox ItemsSource="{Binding Path=Clients}" ItemTemplate="{StaticResource StudentTemplate}" HorizontalContentAlignment="Stretch" AlternationCount="2">
+        <ListBox ItemsSource="{Binding Students}" SelectedItem="{Binding SelectedStudent}" x:Name="lbStudents" HorizontalContentAlignment="Stretch" AlternationCount="2">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
                     <Style.Triggers>
@@ -59,31 +43,50 @@
                     </Style.Triggers>
                 </Style>
             </ListBox.Style>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" Margin="1,5,1,7">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontSize="16" Text="{Binding Path=Last}"/>
+                            <TextBlock Text=" "/>
+                            <TextBlock FontSize="16" Text="{Binding Path=FirstName}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Возраст: "/>
+                            <TextBlock Text="{Binding Path=Age, Converter={StaticResource AgeConverter}}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Пол: "/>
+                            <TextBlock Text="{Binding Path=Gender, Converter={StaticResource GenderConverter}}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
-            <StackPanel Orientation="Vertical"  HorizontalAlignment="Left" VerticalAlignment="Center">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" DataContext="{Binding CurrentStudent}">
                 <DockPanel Height="28">
-                        <Label VerticalAlignment="Center" Height="25" Width="70">Имя:</Label>
-                    <TextBox Width="300" Height="25" Padding="3" HorizontalAlignment="Right"/>
+                    <Label VerticalAlignment="Center" Height="25" Width="70">Имя:</Label>
+                    <TextBox Text="{Binding FirstName}" Width="300" Height="25" Padding="3" HorizontalAlignment="Right"/>
                 </DockPanel>
                 <DockPanel Height="28">
                     <Label VerticalAlignment="Center" Height="25" Width="70">Фамилия:</Label>
-                    <TextBox Width="300" Height="25" Padding="3" HorizontalAlignment="Right"/>
+                    <TextBox Text="{Binding Last}" Width="300" Height="25" Padding="3" HorizontalAlignment="Right"/>
                 </DockPanel>
                 <DockPanel Height="28">
                         <Label VerticalAlignment="Center" Height="25" Width="70">Возраст:</Label>
-                    <TextBox Width="300" Height="25" Padding="3" HorizontalAlignment="Right"/>
+                    <TextBox Text="{Binding Age}" Width="300" Height="25" Padding="3" HorizontalAlignment="Right"/>
                 </DockPanel>
                 <DockPanel Height="28">
                     <Label VerticalAlignment="Center" Height="25" Width="70">Пол:</Label>
-                        <RadioButton GroupName="rbGender" IsChecked="True" HorizontalAlignment="Left" VerticalAlignment="Center">Мужской</RadioButton>
-                        <RadioButton GroupName="rbGender" Margin="20,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">Женский</RadioButton>
+                    <RadioButton IsChecked="{Binding Path=Gender, Converter={StaticResource InvertBoolConverter}}" GroupName="rbGender" HorizontalAlignment="Left" VerticalAlignment="Center">Мужской</RadioButton>
+                    <RadioButton IsChecked="{Binding Path=Gender}" GroupName="rbGender" Margin="20,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">Женский</RadioButton>
                 </DockPanel>
             </StackPanel>
             <StackPanel Margin="20,0,0,0" VerticalAlignment="Center">
-                <Button Margin="5" Width="120" Height="25">Добавить</Button>
-                <Button Margin="5" Width="120" Height="25">Редактировать</Button>
-                <Button Margin="5" Width="120" Height="25">Удалить</Button>
+                <Button Margin="5" Width="120" Height="25" Command="{Binding AddStudent}">Добавить</Button>
+                <Button Margin="5" Width="120" Height="25" Command="{Binding EditStudent}">Редактировать</Button>
+                <Button Margin="5" Width="120" Height="25" Command="{Binding DeleteStudent}">Удалить</Button>
             </StackPanel>
         </StackPanel>
     </Grid>
